@@ -5,6 +5,8 @@
   can navigate using the arrow keys. Developers can bind
   to "keypress" events to support removal or opening of items etc.
 
+  ![interactive terminal list](https://dsz91cxz97a03.cloudfront.net/YNqOchbrMD-150x150.png)
+
 ## Installation
 
 ```
