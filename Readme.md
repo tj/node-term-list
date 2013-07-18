@@ -60,7 +60,6 @@ list.on('empty', function(){
 ### API
 
   - [List()](#list)
-  - [List.prototype.__proto__](#listprototype__proto__)
   - [List.add()](#listaddidstringlabelstring)
   - [List.remove()](#listremoveidstring)
   - [List.at()](#listatinumber)
