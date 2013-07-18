@@ -82,6 +82,19 @@ List.prototype.at = function(i){
 };
 
 /**
+ * Get item by `id`.
+ *
+ * @param {String} id
+ * @return {Object}
+ * @api public
+ */
+
+List.prototype.get = function(id){
+  var i = this.items.map(prop('id')).indexOf(id);
+  return this.at(i);
+};
+
+/**
  * Select item `id`.
  *
  * @param {String} id
