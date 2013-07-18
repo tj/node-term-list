@@ -77,10 +77,6 @@ list.on('empty', function(){
   - `marker` optional marker string defaulting to '› '
   - `markerLength` optional marker length, otherwise marker.length is used
 
-### List.prototype.__proto__
-
-  Inherit from `Emitter.prototype`.
-
 ### List.add(id:String, label:String)
 
   Add item `id` with `label`.
