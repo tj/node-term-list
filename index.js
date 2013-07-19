@@ -8,6 +8,10 @@ var Canvas = require('term-canvas');
 var canvas = new Canvas(100, 200);
 var ctx = canvas.getContext('2d');
 
+/**
+ * Stdin.
+ */
+
 var stdin = process.stdin;
 require('keypress')(stdin);
 
@@ -33,25 +37,7 @@ function List(opts) {
   this.map = {};
   this.marker = opts.marker || '› ';
   this.markerLength = opts.markerLength || this.marker.length;
-
-  this.started = false;
-
-  var self = this;
-  stdin.on('keypress', function(ch, key){
-    if(!self.started) { return; }
-    self.emit('keypress', key, self.selected);
-    switch (key.name) {
-      case 'up':
-        self.up();
-        break;
-      case 'down':
-        self.down();
-        break;
-      case 'c':
-        key.ctrl && self.stop();
-        break;
-    }
-  });
+  this.onkeypress = this.onkeypress.bind(this);
 }
 
 /**
@@ -59,6 +45,25 @@ function List(opts) {
  */
 
 List.prototype.__proto__ = Emitter.prototype;
+
+/**
+ * Handle keypress.
+ */
+
+List.prototype.onkeypress = function(ch, key){
+  this.emit('keypress', key, this.selected);
+  switch (key.name) {
+    case 'up':
+      this.up();
+      break;
+    case 'down':
+      this.down();
+      break;
+    case 'c':
+      key.ctrl && this.stop();
+      break;
+  }
+};
 
 /**
  * Add item `id` with `label`.
@@ -189,7 +194,7 @@ List.prototype.down = function(){
 List.prototype.stop = function(){
   ctx.reset();
   process.stdin.pause();
-  this.started = false;
+  stdin.removeListener('keypress', this.onkeypress);
 };
 
 /**
@@ -199,7 +204,7 @@ List.prototype.stop = function(){
  */
 
 List.prototype.start = function(){
-  this.started = true;
+  stdin.on('keypress', this.onkeypress);
   this.draw();
   ctx.hideCursor();
   stdin.setRawMode(true);

@@ -29,16 +29,6 @@ list.add('http://cloudup.com', 'Cloudup');
 list.add('http://github.com', 'Github');
 list.start();
 
-setTimeout(function(){
-  list.add('http://cuteoverload.com', 'Cute Overload');
-  list.draw();
-}, 2000);
-
-setTimeout(function(){
-  list.add('http://uglyoverload.com', 'Ugly Overload');
-  list.draw();
-}, 4000);
-
 list.on('keypress', function(key, item){
   switch (key.name) {
     case 'return':

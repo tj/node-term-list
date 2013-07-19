@@ -29,6 +29,12 @@ list.on('keypress', function(key, item){
     case 'backspace':
       list.remove(list.selected);
       break;
+    case 'c':
+      if (key.ctrl) {
+        list.stop();
+        process.exit();
+      }
+      break;
   }
 });
 
