@@ -2,7 +2,7 @@
   "name": "term-list",
   "description": "interactive terminal lists",
   "keywords": ["ansi", "term", "terminal", "list", "ui", "interactive"],
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "dependencies": {
     "term-canvas": "0.0.5",
