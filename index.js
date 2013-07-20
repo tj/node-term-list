@@ -53,9 +53,11 @@ List.prototype.__proto__ = Emitter.prototype;
 List.prototype.onkeypress = function(ch, key){
   this.emit('keypress', key, this.selected);
   switch (key.name) {
+    case 'k':
     case 'up':
       this.up();
       break;
+    case 'j':
     case 'down':
       this.down();
       break;
