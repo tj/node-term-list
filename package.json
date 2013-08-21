@@ -1,11 +1,22 @@
 {
   "name": "term-list",
   "description": "interactive terminal lists",
-  "keywords": ["ansi", "term", "terminal", "list", "ui", "interactive"],
+  "keywords": [
+    "ansi",
+    "term",
+    "terminal",
+    "list",
+    "ui",
+    "interactive"
+  ],
   "version": "0.2.0",
   "license": "MIT",
   "dependencies": {
     "term-canvas": "0.0.5",
     "keypress": "~0.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/visionmedia/node-term-list.git"
   }
 }
