@@ -1,5 +1,6 @@
 {
   "name": "term-list",
+  "version": "0.2.1",
   "description": "interactive terminal lists",
   "keywords": [
     "ansi",
@@ -9,7 +10,6 @@
     "ui",
     "interactive"
   ],
-  "version": "0.2.0",
   "license": "MIT",
   "dependencies": {
     "term-canvas": "0.0.5",
