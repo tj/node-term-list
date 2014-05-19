@@ -38,6 +38,8 @@ function List(opts) {
   this.marker = opts.marker || '› ';
   this.markerLength = opts.markerLength || this.marker.length;
   this.onkeypress = this.onkeypress.bind(this);
+  this.header = opts.header || '';
+  this.footer = opts.footer || '';
 }
 
 /**
@@ -149,6 +151,7 @@ List.prototype.draw = function(){
   ctx.clear();
   ctx.save();
   ctx.translate(3, 3);
+  if (this.header) ctx.fillText(this.header, 0, y++);
   this.items.forEach(function(item){
     if (self.selected == item.id) {
       ctx.fillText(self.marker + item.label, 0, y++);
@@ -157,6 +160,7 @@ List.prototype.draw = function(){
       ctx.fillText(pad + item.label, 0, y++);
     }
   });
+  if (this.footer) ctx.fillText(this.footer, 0, y);
   ctx.write('\n\n');
   ctx.restore();
 };
