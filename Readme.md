@@ -58,11 +58,12 @@ list.on('empty', function(){
   - [List.down()](#listdown)
   - [List.stop()](#liststop)
   - [List.start()](#liststart)
+  - [List.setPageInfo()](#listsetpageinfo)
 
 ### List()
 
   Initialize a new `List` with `opts`:
-  
+
   - `marker` optional marker string defaulting to '› '
   - `markerLength` optional marker length, otherwise marker.length is used
 
@@ -101,6 +102,10 @@ list.on('empty', function(){
 ### List.start()
 
   Start the list.
+
+### List.setPageInfo()
+
+  Change Header and Footer Infomation
 
 ## License
 
