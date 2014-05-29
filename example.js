@@ -1,8 +1,7 @@
 
 var List = require('./');
-var exec = require('child_process').exec;
 
-var list = new List({ marker: '\033[36m› \033[0m', markerLength: 2 });
+var list = new List({ marker: '\033[36m› \033[0m', markerLength: 2,header: 'header', footer:'footer' });
 list.add('http://google.com', 'Google');
 list.add('http://yahoo.com', 'Yahoo');
 list.add('http://cloudup.com', 'Cloudup');
@@ -11,10 +10,12 @@ list.start();
 
 setTimeout(function(){
   list.add('http://cuteoverload.com', 'Cute Overload');
+  list.setPageInfo({header: 'set new headerinfo'});
   list.draw();
 }, 2000);
 
 setTimeout(function(){
+  list.setPageInfo({footer: 'set new footerinfo'});
   list.add('http://uglyoverload.com', 'Ugly Overload');
   list.draw();
 }, 4000);
@@ -22,8 +23,7 @@ setTimeout(function(){
 list.on('keypress', function(key, item){
   switch (key.name) {
     case 'return':
-      exec('open ' + item);
-      list.stop();
+      // list.stop();
       console.log('opening %s', item);
       break;
     case 'backspace':

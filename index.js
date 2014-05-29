@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -38,6 +37,8 @@ function List(opts) {
   this.marker = opts.marker || '› ';
   this.markerLength = opts.markerLength || this.marker.length;
   this.onkeypress = this.onkeypress.bind(this);
+  this.header = opts.header || '';
+  this.footer = opts.footer || '';
 }
 
 /**
@@ -50,7 +51,7 @@ List.prototype.__proto__ = Emitter.prototype;
  * Handle keypress.
  */
 
-List.prototype.onkeypress = function(ch, key){
+List.prototype.onkeypress = function(ch, key) {
   if (!key) return;
 
   this.emit('keypress', key, this.selected);
@@ -77,9 +78,12 @@ List.prototype.onkeypress = function(ch, key){
  * @api public
  */
 
-List.prototype.add = function(id, label){
+List.prototype.add = function(id, label) {
   if (!this.selected) this.select(id);
-  this.items.push({ id: id, label: label });
+  this.items.push({
+    id: id,
+    label: label
+  });
 };
 
 /**
@@ -89,7 +93,7 @@ List.prototype.add = function(id, label){
  * @api public
  */
 
-List.prototype.remove = function(id){
+List.prototype.remove = function(id) {
   this.emit('remove', id);
   var i = this.items.map(prop('id')).indexOf(id);
   this.items.splice(i, 1);
@@ -107,7 +111,7 @@ List.prototype.remove = function(id){
  * @api public
  */
 
-List.prototype.at = function(i){
+List.prototype.at = function(i) {
   return this.items[i];
 };
 
@@ -119,7 +123,7 @@ List.prototype.at = function(i){
  * @api public
  */
 
-List.prototype.get = function(id){
+List.prototype.get = function(id) {
   var i = this.items.map(prop('id')).indexOf(id);
   return this.at(i);
 };
@@ -131,11 +135,24 @@ List.prototype.get = function(id){
  * @api public
  */
 
-List.prototype.select = function(id){
+List.prototype.select = function(id) {
   this.emit('select', id);
   this.selected = id;
   this.draw();
 };
+/**
+ * set Page Info
+ * @param {Object} obj
+ */
+List.prototype.setPageInfo = function (obj) {
+  for (var item in obj) {
+    if (obj.hasOwnProperty(item) && this.hasOwnProperty(item)) {
+      this[item] = obj[item];
+    }
+  }
+}
+
+List.prototype.setFooter
 
 /**
  * Re-draw the list.
@@ -143,20 +160,28 @@ List.prototype.select = function(id){
  * @api public
  */
 
-List.prototype.draw = function(){
+List.prototype.draw = function() {
   var self = this;
   var y = 0;
   ctx.clear();
   ctx.save();
   ctx.translate(3, 3);
-  this.items.forEach(function(item){
+  var pad = Array(self.markerLength + 1).join(' ');
+  if (this.header) {
+    ctx.fillText(pad + this.header, 0, y++);
+    ctx.fillText(Array(60).join('-'), 0, y++);
+  }
+  this.items.forEach(function(item) {
     if (self.selected == item.id) {
       ctx.fillText(self.marker + item.label, 0, y++);
     } else {
-      var pad = Array(self.markerLength + 1).join(' ');
       ctx.fillText(pad + item.label, 0, y++);
     }
   });
+  if (this.footer) {
+    ctx.fillText(Array(60).join('-'), 0, y++);
+    ctx.fillText(pad + this.footer, 0, y);
+  }
   ctx.write('\n\n');
   ctx.restore();
 };
@@ -167,7 +192,7 @@ List.prototype.draw = function(){
  * @api public
  */
 
-List.prototype.up = function(){
+List.prototype.up = function() {
   var ids = this.items.map(prop('id'));
   var i = ids.indexOf(this.selected) - 1;
   var item = this.items[i];
@@ -181,7 +206,7 @@ List.prototype.up = function(){
  * @api public
  */
 
-List.prototype.down = function(){
+List.prototype.down = function() {
   var ids = this.items.map(prop('id'));
   var i = ids.indexOf(this.selected) + 1;
   var item = this.items[i];
@@ -195,7 +220,7 @@ List.prototype.down = function(){
  * @api public
  */
 
-List.prototype.stop = function(){
+List.prototype.stop = function() {
   ctx.reset();
   process.stdin.pause();
   stdin.removeListener('keypress', this.onkeypress);
@@ -207,7 +232,7 @@ List.prototype.stop = function(){
  * @api public
  */
 
-List.prototype.start = function(){
+List.prototype.start = function() {
   stdin.on('keypress', this.onkeypress);
   this.draw();
   ctx.hideCursor();
@@ -220,7 +245,7 @@ List.prototype.start = function(){
  */
 
 function prop(name) {
-  return function(obj){
+  return function(obj) {
     return obj[name];
   }
 }
